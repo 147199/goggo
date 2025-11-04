@@ -4,28 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>生日快乐！廖姐</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Microsoft YaHei', sans-serif;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
         }
         
         body {
-            background: linear-gradient(135deg, #ffafbd, #ffc3a0);
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4, #fad0c4, #a1c4fd);
+            background-size: 400% 400%;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            overflow: hidden;
+            overflow-x: hidden;
             position: relative;
             padding: 20px;
+            animation: gradientBG 15s ease infinite;
         }
         
         .container {
-            max-width: 800px;
+            max-width: 900px;
             width: 100%;
             text-align: center;
             z-index: 10;
@@ -33,25 +36,34 @@
         
         h1 {
             color: #fff;
-            font-size: 3.5rem;
+            font-size: 4rem;
             margin-bottom: 20px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-            animation: pulse 2s infinite;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+            animation: pulse 3s infinite, glow 2s infinite alternate;
+            background: linear-gradient(45deg, #ff6b6b, #ffa8a8, #ffd3b6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            padding: 10px;
         }
         
         .subtitle {
             color: #fff;
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             margin-bottom: 40px;
             opacity: 0.9;
+            text-shadow: 1px 1px 4px rgba(0,0,0,0.2);
+            font-weight: 300;
+            letter-spacing: 1px;
         }
         
         .card-container {
-            perspective: 1000px;
+            perspective: 1200px;
             margin: 40px auto;
-            width: 300px;
-            height: 400px;
+            width: 320px;
+            height: 420px;
             cursor: pointer;
+            position: relative;
         }
         
         .card {
@@ -60,8 +72,8 @@
             position: relative;
             transform-style: preserve-3d;
             transition: transform 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
-            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+            border-radius: 20px;
         }
         
         .card-front, .card-back {
@@ -69,27 +81,49 @@
             width: 100%;
             height: 100%;
             backface-visibility: hidden;
-            border-radius: 15px;
+            border-radius: 20px;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 20px;
+            padding: 30px;
+            overflow: hidden;
         }
         
         .card-front {
             background: linear-gradient(45deg, #ff6b6b, #ffa8a8);
             color: white;
+            box-shadow: inset 0 0 50px rgba(255,255,255,0.2);
+        }
+        
+        .card-front::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 70%);
+            animation: shine 4s infinite;
         }
         
         .card-front h2 {
-            font-size: 2rem;
-            margin-bottom: 15px;
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
         }
         
         .card-front p {
-            font-size: 1.2rem;
-            margin-top: 10px;
+            font-size: 1.3rem;
+            margin-top: 15px;
+            font-weight: 300;
+        }
+        
+        .card-front i {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            animation: bounce 2s infinite;
+            color: rgba(255,255,255,0.9);
         }
         
         .card-back {
@@ -97,17 +131,38 @@
             transform: rotateY(180deg);
             color: #333;
             text-align: center;
+            box-shadow: inset 0 0 30px rgba(255,255,255,0.3);
+            position: relative;
+        }
+        
+        .card-back::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect fill="none" width="100" height="100"/><path fill="rgba(255,255,255,0.1)" d="M20,20 L80,20 L80,80 L20,80 Z" stroke="rgba(255,255,255,0.3)" stroke-width="2"/></svg>');
+            opacity: 0.3;
+            border-radius: 20px;
         }
         
         .card-back h2 {
-            font-size: 2rem;
-            margin-bottom: 15px;
+            font-size: 2.2rem;
+            margin-bottom: 20px;
             color: #ff6b6b;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 2;
         }
         
         .card-back p {
-            font-size: 1.1rem;
-            margin: 8px 0;
+            font-size: 1.2rem;
+            margin: 10px 0;
+            line-height: 1.6;
+            position: relative;
+            z-index: 2;
+            font-weight: 500;
         }
         
         .card.open {
@@ -116,63 +171,110 @@
         
         .click-hint {
             color: white;
-            margin-top: 15px;
-            font-size: 1rem;
-            opacity: 0.7;
+            margin-top: 20px;
+            font-size: 1.2rem;
+            opacity: 0.8;
             animation: bounce 2s infinite;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+            background: rgba(255,255,255,0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            backdrop-filter: blur(5px);
         }
         
         .additional-message {
-            background: rgba(255,255,255,0.2);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            padding: 25px;
+            background: rgba(255,255,255,0.25);
+            backdrop-filter: blur(12px);
+            border-radius: 20px;
+            padding: 30px;
             margin-top: 40px;
-            max-width: 600px;
+            max-width: 700px;
             color: white;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+            border: 1px solid rgba(255,255,255,0.2);
+            animation: fadeIn 2s ease-out;
         }
         
         .additional-message h3 {
-            margin-bottom: 15px;
-            font-size: 1.8rem;
+            margin-bottom: 20px;
+            font-size: 2rem;
+            color: #fff;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
         }
         
         .additional-message p {
-            font-size: 1.2rem;
-            line-height: 1.6;
+            font-size: 1.3rem;
+            line-height: 1.7;
             margin-bottom: 15px;
+            font-weight: 300;
         }
         
         .floating {
-            animation: floating 6s ease-in-out infinite;
+            animation: floating 8s ease-in-out infinite;
         }
         
         .confetti {
             position: absolute;
-            width: 10px;
-            height: 10px;
-            background-color: #f00;
-            opacity: 0.7;
+            width: 12px;
+            height: 12px;
+            opacity: 0.8;
             border-radius: 50%;
             animation: confetti-fall 5s linear infinite;
+            z-index: 1;
+        }
+        
+        .decoration {
+            position: absolute;
+            font-size: 28px;
+            z-index: 1;
+            animation: floatAround 20s linear infinite;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .candle {
+            position: absolute;
+            width: 10px;
+            height: 30px;
+            background: #ff9a00;
+            border-radius: 5px 5px 0 0;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 0 10px #ff9a00;
+            animation: flicker 1.5s infinite alternate;
+        }
+        
+        .candle::after {
+            content: "";
+            position: absolute;
+            width: 20px;
+            height: 10px;
+            background: #ff6b6b;
+            border-radius: 50%;
+            top: -5px;
+            left: -5px;
         }
         
         @keyframes pulse {
             0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
+            50% { transform: scale(1.08); }
             100% { transform: scale(1); }
+        }
+        
+        @keyframes glow {
+            0% { filter: drop-shadow(0 0 5px rgba(255,107,107,0.7)); }
+            100% { filter: drop-shadow(0 0 20px rgba(255,107,107,0.9)); }
         }
         
         @keyframes bounce {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
+            50% { transform: translateY(-12px); }
         }
         
         @keyframes floating {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-15px); }
-            100% { transform: translateY(0px); }
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(2deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
         }
         
         @keyframes confetti-fall {
@@ -186,18 +288,59 @@
             }
         }
         
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(0deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(360deg); }
+        }
+        
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(30px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes floatAround {
+            0% { transform: translate(0, 0) rotate(0deg) scale(1); }
+            25% { transform: translate(30px, 60px) rotate(90deg) scale(1.1); }
+            50% { transform: translate(60px, 0) rotate(180deg) scale(1); }
+            75% { transform: translate(30px, -60px) rotate(270deg) scale(0.9); }
+            100% { transform: translate(0, 0) rotate(360deg) scale(1); }
+        }
+        
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        @keyframes flicker {
+            0%, 100% { opacity: 1; height: 30px; }
+            50% { opacity: 0.8; height: 35px; }
+        }
+        
         @media (max-width: 600px) {
             h1 {
-                font-size: 2.5rem;
+                font-size: 2.8rem;
             }
             
             .subtitle {
-                font-size: 1.2rem;
+                font-size: 1.4rem;
             }
             
             .card-container {
-                width: 250px;
-                height: 350px;
+                width: 280px;
+                height: 380px;
+            }
+            
+            .additional-message {
+                padding: 20px;
+            }
+            
+            .additional-message h3 {
+                font-size: 1.6rem;
+            }
+            
+            .additional-message p {
+                font-size: 1.1rem;
             }
         }
     </style>
@@ -210,8 +353,10 @@
         <div class="card-container">
             <div class="card">
                 <div class="card-front">
+                    <i class="fas fa-gift"></i>
                     <h2>给廖姐的贺卡</h2>
                     <p>点击打开惊喜</p>
+                    <div class="candle"></div>
                 </div>
                 <div class="card-back">
                     <h2>生日快乐</h2>
@@ -238,52 +383,67 @@
         // 贺卡交互
         const card = document.querySelector('.card');
         const cardContainer = document.querySelector('.card-container');
+        const clickHint = document.querySelector('.click-hint');
+        let opened = false;
         
         cardContainer.addEventListener('click', function() {
-            card.classList.toggle('open');
-            
-            // 播放音效（如果有的话）
-            const audio = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-happy-birthday-horn-576.mp3');
-            audio.play().catch(e => console.log("音频自动播放被阻止，请手动交互"));
-            
-            // 创建五彩纸屑效果
-            createConfetti();
+            if (!opened) {
+                // 第一次点击 - 打开贺卡
+                card.classList.add('open');
+                
+                // 播放音效
+                const audio = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-happy-birthday-horn-576.mp3');
+                audio.play().catch(e => console.log("音频自动播放被阻止，请手动交互"));
+                
+                // 创建五彩纸屑效果
+                createConfetti();
+                
+                // 更新提示文字
+                clickHint.textContent = "贺卡已打开！";
+                clickHint.style.animation = "none";
+                
+                opened = true;
+            }
         });
         
         // 创建五彩纸屑效果
         function createConfetti() {
-            const colors = ['#ff6b6b', '#ffa8a8', '#ffd3b6', '#a8e6cf', '#74b9ff', '#a29bfe'];
+            const colors = ['#ff6b6b', '#ffa8a8', '#ffd3b6', '#a8e6cf', '#74b9ff', '#a29bfe', '#fd79a8', '#fdcb6e'];
             
-            for (let i = 0; i < 100; i++) {
+            for (let i = 0; i < 150; i++) {
                 const confetti = document.createElement('div');
                 confetti.className = 'confetti';
+                
                 confetti.style.left = Math.random() * 100 + 'vw';
                 confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                confetti.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                confetti.style.animationDuration = (Math.random() * 3 + 3) + 's';
                 confetti.style.animationDelay = Math.random() * 2 + 's';
+                confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
                 document.body.appendChild(confetti);
                 
                 // 移除元素以保持性能
                 setTimeout(() => {
-                    confetti.remove();
-                }, 5000);
+                    if (confetti.parentNode) {
+                        confetti.remove();
+                    }
+                }, 6000);
             }
         }
         
         // 自动创建一些飘落的装饰
         function createFloatingDecorations() {
-            const emojis = ['🎂', '🎁', '🎈', '⭐', '❤️', '✨'];
+            const emojis = ['🎂', '🎁', '🎈', '⭐', '❤️', '✨', '🎉', '🥳'];
             
-            for (let i = 0; i < 20; i++) {
+            for (let i = 0; i < 25; i++) {
                 const decoration = document.createElement('div');
+                decoration.className = 'decoration';
                 decoration.innerHTML = emojis[Math.floor(Math.random() * emojis.length)];
-                decoration.style.position = 'absolute';
                 decoration.style.left = Math.random() * 100 + 'vw';
                 decoration.style.top = Math.random() * 100 + 'vh';
-                decoration.style.fontSize = (Math.random() * 20 + 20) + 'px';
-                decoration.style.opacity = Math.random() * 0.5 + 0.3;
-                decoration.style.animation = `floating ${Math.random() * 6 + 4}s ease-in-out infinite`;
-                decoration.style.animationDelay = Math.random() * 5 + 's';
+                decoration.style.fontSize = (Math.random() * 25 + 25) + 'px';
+                decoration.style.opacity = Math.random() * 0.6 + 0.3;
+                decoration.style.animationDuration = (Math.random() * 15 + 15) + 's';
+                decoration.style.animationDelay = Math.random() * 10 + 's';
                 document.body.appendChild(decoration);
             }
         }
